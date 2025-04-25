@@ -1,0 +1,14 @@
+<h1>DASHBOARD</h1>
+{% if articles %}
+    {% for article in articles %}
+    <p>{{article.title}} <a href="/admin/edit/{{article.id}}">Edit</a> <a href="/admin/delete/{{article.id}}">Delete</a></p>
+    {% endfor %}
+{% else %}
+
+    <p>There arent any article</p>
+{% endif %}
+{% if error %}
+    <p>{{error}}</p>
+{% endif %}
+<a href="/admin/new">Create new blog!</a>
+<a href="/"> <- Return to main page</a>

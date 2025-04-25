@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Blog</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Personal Blog</h1>
+      {% if username %}
+      <p>Welcome, {{ username }}!</p>
+      <a href="/logout" class="btn">Logout</a>
+      {% if username == "admin" %}
+      <a href="/admin/dashboard">DASHBOARD</a>
+      {% endif %}
+      {% else %}
+      <p>Welcome, Guest!</p>
+      <a href="/login" class="btn">Login</a>
+      {% endif %}
+    </header>
+    <div class="container">
+      {% if articles %}
+        {% for article in articles %}
+      <p>
+        <a href="/articles/{{ article.id }}">{{ article.title }}</a>
+        <span style="color: gray">({{ article.date }})</span>
+      </p>
+        {% endfor %}
+      {% else %}
+        <p>There isnt any blog yet!</p>
+      {% endif %}
+    </div>
+    <footer>
+      <p>&copy; 2025 Personal Blog</p>
+    </footer>
+  </body>
+</html>
