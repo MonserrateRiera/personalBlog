@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from datetime import datetime
 from services.auth_service import tryLogin, tryLogout, loginRequired
 from services.article_service import getArticleList, getAtricleById, createArticle, deleteArticleById, editArticleById
+import os
 
 app = Flask(__name__)
-app.secret_key="fsdfsd89ASDa.asdfsdfsd<z,s+asdasd"
-
+app.secret_key = os.getenv("SECRET_KEY", "default_secret_key") 
 
 @app.route("/login", methods=['GET','POST'])
 def login():
