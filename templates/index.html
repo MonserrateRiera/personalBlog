@@ -8,28 +8,36 @@
   </head>
   <body>
     <header>
-      <h1>Personal Blog</h1>
-      {% if username %}
-      <p>Welcome, {{ username }}!</p>
-      <a href="/logout" class="btn">Logout</a>
-      {% if username == "admin" %}
-      <a href="/admin/dashboard">DASHBOARD</a>
-      {% endif %}
-      {% else %}
-      <p>Welcome, Guest!</p>
-      <a href="/login" class="btn">Login</a>
-      {% endif %}
+      <nav class="navbar">
+        <div class="logo">
+          <h1>Personal Blog</h1>
+        </div>
+        <div class="nav-links">
+          {% if username %}
+          <p>Welcome, {{ username }}!</p>
+          <a href="/logout" class="btn">Logout</a>
+          {% if username == "admin" %}
+          <a href="/admin/dashboard" class="btn">Dashboard</a>
+          {% endif %}
+          {% else %}
+          <a href="/login" class="btn">Login</a>
+          {% endif %}
+        </div>
+      </nav>
     </header>
     <div class="container">
       {% if articles %}
-        {% for article in articles %}
-      <p>
-        <a href="/articles/{{ article.id }}">{{ article.title }}</a>
-        <span style="color: gray">({{ article.date }})</span>
-      </p>
-        {% endfor %}
+        <h2>Latest Articles</h2>
+        <ul class="article-list">
+          {% for article in articles %}
+          <li>
+            <a href="/articles/{{ article.id }}" class="article-link">{{ article.title }}</a>
+            <span class="article-date">({{ article.date }})</span>
+          </li>
+          {% endfor %}
+        </ul>
       {% else %}
-        <p>There isnt any blog yet!</p>
+        <p class="no-articles">There isn't any blog yet!</p>
       {% endif %}
     </div>
     <footer>
