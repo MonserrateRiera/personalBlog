@@ -1,68 +1,100 @@
-from Article import Article
-import json
+from model.Article import Article
+from repository.article_repository import ArticleRepository
 import datetime
 
-path = "articles.json"
 
+class ArticleService:
+    def __init__(self):
+        """
+        Initializes the ArticleService with an instance of ArticleRepository.
+        """
+        self.__article_repository = ArticleRepository()
 
-def getArticleList():
-    with open(path, "r") as file:
-        try:
-            data = json.load(file)
-        except json.JSONDecodeError:
-            return []
+    def get_article_list(self):
+        """
+        Retrieves all articles from the repository.
 
+        Returns:
+            list: A list of Article objects.
+        """
+        data = self.__article_repository.get_all_articles()
         articles = [Article.fromJson(article_data) for article_data in data]
-    return articles
+        return articles
 
+    def get_article_by_id(self, article_id):
+        """
+        Retrieves a single article by its ID.
 
-def getAtricleById(article_id):
-    articles = getArticleList()
-    for article in articles: 
-        if article.id == int(article_id):
-            return article
+        Args:
+            article_id (int): The ID of the article to retrieve.
 
-    return None       
-
-def createArticle(title:str, text:str) -> bool:
-    if len(title)<3 and len(text) < 20:
-        return False
-    
-    articles = getArticleList()
-    newArticle = Article(title, datetime.date.today(), text)
-    articles.append(newArticle)
-    saveArticles(articles)
-    return True
-
-
-def saveArticles(articles):
-    print(articles)
-    with open(path, "w") as file:
-        json.dump([article.toJson() for article in articles], file, indent=4)
-    print("saved")
-
-
-def deleteArticleById(id):
-    articles = getArticleList()
-    for article in articles:
-        if article.id == int(id):
-            articles.remove(article)
-            saveArticles(articles)
-            return articles
-        
-    return None    
-
-def editArticleById(id, title, text):
-   
-    if len(title) < 3 or len(text) < 20:
+        Returns:
+            Article: The article with the specified ID, or None if not found.
+        """
+        articles = self.get_article_list()
+        for article in articles:
+            if article.id == int(article_id):
+                return article
         return None
-     
-    articles = getArticleList()
-    for article in articles:
-        if article.id == int(id):
-            article.title = title
-            article.text = text
-            saveArticles(articles)
-            return articles
 
-    return None  # Devuelve None si no encuentra el artículo
+    def create_article(self, title: str, text: str) -> bool:
+        """
+        Creates a new article and saves it to the repository.
+
+        Args:
+            title (str): The title of the article.
+            text (str): The content of the article.
+
+        Returns:
+            bool: True if the article was created successfully, False otherwise.
+        """
+        if len(title) < 3 or len(text) < 20:
+            return False
+
+        articles = self.get_article_list()
+        new_article = Article(title, datetime.date.today(), text)
+        articles.append(new_article)
+        self.__article_repository.save_all(articles)
+        return True
+
+    def delete_article_by_id(self, article_id):
+        """
+        Deletes an article by its ID.
+
+        Args:
+            article_id (int): The ID of the article to delete.
+
+        Returns:
+            bool: True if the article was deleted successfully, False otherwise.
+        """
+        articles = self.get_article_list()
+        for article in articles:
+            if article.id == int(article_id):
+                articles.remove(article)
+                self.__article_repository.save_all(articles)
+                return True
+        return False
+
+    def edit_article_by_id(self, article_id, title, text):
+        """
+        Edits an existing article by its ID.
+
+        Args:
+            article_id (int): The ID of the article to edit.
+            title (str): The new title of the article.
+            text (str): The new content of the article.
+
+        Returns:
+            bool: True if the article was edited successfully, False otherwise.
+        """
+        if len(title) < 3 or len(text) < 20:
+            return False
+
+        articles = self.get_article_list()
+        for article in articles:
+            if article.id == int(article_id):
+                article.title = title
+                article.text = text
+                self.__article_repository.save_all(articles)
+                return True
+        return False

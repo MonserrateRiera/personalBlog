@@ -1,25 +1,55 @@
 from flask import session, redirect, url_for, render_template
 from functools import wraps
 
+class AuthService:
+    def __init__(self):
+        pass
 
-def tryLogin(username:str, password:str) -> str:
-    if username == "admin" and password == "admin":
+    @staticmethod
+    def try_login(username: str, password: str) -> bool:
+        """
+        Attempts to log in a user by validating their credentials.
 
-        session['username'] = username
-        print("login successful")
-        return True
-    else:
-        return False
-    
-def tryLogout():
-    session.pop('username', None)
+        Args:
+            username (str): The username provided by the user.
+            password (str): The password provided by the user.
 
-def loginRequired(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'username' not in session:
-            return render_template("forbidden.html"), 403
-        elif session.get('username') != "admin":
-            return render_template("forbidden.html"), 403
-        return f(*args, **kwargs)  # si está logueado, ejecuta la función original
-    return decorated_function  # devuelve la nueva función "protegida"
+        Returns:
+            bool: True if login is successful, False otherwise.
+        """
+        # Replace this with a proper user validation mechanism (e.g., database lookup)
+        if username == "admin" and password == "admin":
+            session['username'] = username
+            print("Login successful")
+            return True
+        else:
+            print("Login failed")
+            return False
+
+    @staticmethod
+    def try_logout():
+        """
+        Logs out the current user by removing their session data.
+        """
+        session.pop('username', None)
+        print("Logout successful")
+
+    @staticmethod
+    def login_required(f):
+        """
+        Decorator to protect routes that require authentication.
+
+        Args:
+            f (function): The function to protect.
+
+        Returns:
+            function: The wrapped function that checks authentication.
+        """
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if 'username' not in session:
+                return render_template("forbidden.html"), 403
+            elif session.get('username') != "admin":
+                return render_template("forbidden.html"), 403
+            return f(*args, **kwargs)  
+        return decorated_function
