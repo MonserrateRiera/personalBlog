@@ -27,12 +27,12 @@ class AuthService:
             return False
 
     @staticmethod
-    def try_logout():
+    def try_logout() -> bool:
         """
         Logs out the current user by removing their session data.
         """
         session.pop('username', None)
-        print("Logout successful")
+        return True
 
     @staticmethod
     def login_required(f):
