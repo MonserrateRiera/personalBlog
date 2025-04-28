@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask
-from controllers.blog_controller import init_article_routes
-from services.article_service import ArticleService
+from personal_blog.controllers.blog_controller import init_article_routes
+from personal_blog.services.article_service import ArticleService
 
 class FakeRepository:
     def __init__(self):

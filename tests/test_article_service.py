@@ -1,6 +1,6 @@
 import pytest
-from services.article_service import ArticleService
-from model.Article import Article
+from personal_blog.services import ArticleService
+from personal_blog.model.Article import Article
 
 # Fake repository for testing
 class FakeRepository:
