@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask
-from personal_blog.controllers.blog_controller import init_article_routes
+from personal_blog.controllers.blog_controller import register_routes
 from personal_blog.services.article_service import ArticleService
 
 class FakeRepository:
@@ -18,7 +18,7 @@ def client():
     app = Flask(__name__)
     repo = FakeRepository()
     service = ArticleService(repo)
-    article_bp = init_article_routes(service)
+    article_bp = register_routes(service)
     app.register_blueprint(article_bp)
     return app.test_client()
 

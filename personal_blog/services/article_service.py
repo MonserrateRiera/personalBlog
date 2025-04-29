@@ -4,11 +4,11 @@ import datetime
 
 
 class ArticleService:
-    def __init__(self):
+    def __init__(self, repo = None):
         """
         Initializes the ArticleService with an instance of ArticleRepository.
         """
-        self.__article_repository = ArticleRepository()
+        self.repo = repo or ArticleRepository()
 
     def get_article_list(self):
         """

@@ -1,5 +1,5 @@
 import pytest
-from personal_blog.services import ArticleService
+from personal_blog.services.article_service import ArticleService
 from personal_blog.model.Article import Article
 
 # Fake repository for testing
