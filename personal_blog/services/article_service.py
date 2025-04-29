@@ -1,5 +1,5 @@
-from model.Article import Article
-from repository.article_repository import ArticleRepository
+from personal_blog.model.Article import Article
+from personal_blog.repository.article_repository import ArticleRepository
 import datetime
 
 

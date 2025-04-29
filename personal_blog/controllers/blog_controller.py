@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from services.auth_service import AuthService
-from services.article_service import ArticleService
+from personal_blog.services.auth_service import AuthService
+from personal_blog.services.article_service import ArticleService
 
 class BlogController:
     """

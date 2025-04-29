@@ -1,5 +1,5 @@
 from flask import Flask
-from controllers.blog_controller import BlogController
+from personal_blog.controllers.blog_controller import BlogController
 import os
 
 app = Flask(__name__)
