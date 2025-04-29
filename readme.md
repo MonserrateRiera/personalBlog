@@ -2,7 +2,7 @@
 
 This is a small personal blog API built with Flask.  
 The project is designed to apply clean code principles, dependency injection, modular architecture, and good development practices.
-
+I've found this project at https://roadmap.sh/projects/personal-blog
 ## 📚 Project Structure
 
 personalBlog/   
